@@ -521,7 +521,7 @@ def generate_source(q: Query, project: str, version: str, path: str) -> str:
     html_code_block = format_code(fname, code)
 
     # Replace line numbers by links to the corresponding line in the current file
-    html_code_block = sub('href="#codeline-(\d+)', 'name="L\\1" id="L\\1" href="#L\\1', html_code_block)
+    html_code_block = sub('href="#codeline-(\\d+)', 'name="L\\1" id="L\\1" href="#L\\1', html_code_block)
 
     for f in filters:
         html_code_block = f.untransform_formatted_code(filter_ctx, html_code_block)
@@ -742,7 +742,7 @@ class RequestContextMiddleware:
 
     def process_request(self, req, _resp):
         req.context = RequestContext(
-            Config(req.env['LXR_PROJ_DIR'], ELIXIR_VERSION_STRING, ELIXIR_REPO_LINK),
+            Config("/opt/elixir", ELIXIR_VERSION_STRING, ELIXIR_REPO_LINK),
             self.jinja_env,
             logging.getLogger(__name__),
             self.versions_cache,
